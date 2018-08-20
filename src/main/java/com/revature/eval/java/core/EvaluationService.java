@@ -598,8 +598,14 @@ public class EvaluationService {
 	public boolean isValidIsbn(String string) {
 		char[] digits = string.toCharArray();
 		int mult = 10;
-		for(char c : digits) {}
-		return false;
+		int sum = 0;
+		for(char c : digits) {
+			if(Character.isDigit(c))
+				sum += Character.getNumericValue(c) * mult--;
+			else if (c == 'x' || c == 'X')
+				sum += 10;
+		}
+		return sum % 11 == 0;
 	}
 
 	/**
@@ -751,8 +757,25 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int solveWordProblem(String string) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+		String[] equations = string.split("[ ?]");
+		int sum;
+		switch (equations[3]) {
+		case"plus":
+			sum = Integer.parseInt(equations[2]) + Integer.parseInt(equations[4]);
+			break;
+		case"minus":
+			sum = Integer.parseInt(equations[2]) - Integer.parseInt(equations[4]);
+			break;
+		case"multiplied":
+			sum = Integer.parseInt(equations[2]) * Integer.parseInt(equations[5]);
+			break;
+		case"divided":
+			sum = Integer.parseInt(equations[2]) / Integer.parseInt(equations[5]);
+			break;
+			default:
+				sum = 0;
+		}
+		return sum;
 	}
 
 }
