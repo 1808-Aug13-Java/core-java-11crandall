@@ -447,12 +447,12 @@ public class EvaluationServiceTest {
 	public void testSixthPrime() {
 		assertThat(evaluationService.calculateNthPrime(6), is(13));
 	}
-/*
+
 	@Test
 	public void testBigPrime() {
 		assertThat(evaluationService.calculateNthPrime(10001), is(104743));
 	}
-*/
+	
 	@Test
 	public void testUndefinedPrime() {
 		expectedException.expect(IllegalArgumentException.class);

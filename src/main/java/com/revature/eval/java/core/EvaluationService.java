@@ -1,5 +1,8 @@
 package com.revature.eval.java.core;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -475,27 +478,23 @@ public class EvaluationService {
 			throw new IllegalArgumentException();
 		else if (i == 1)
 			return 2;
-		else if (i == 2)
-			return 3;
+		
 		else {
-			int check = 3;
-			int count = 2;
-			ArrayList<Integer> primeArr = new ArrayList<>();
-			primeArr.add(3);
-			while (count < i) {
-				check +=2;
-				for(int prime : primeArr) {
-					if (check % prime == 0) 
+			int count = 1;
+			int prime = 3;
+			
+			while(count < i) {
+				for (int j = 2; j < prime; j++) 
+					if (prime % j == 0)
 						break;
-					else if(primeArr.indexOf(prime) == (primeArr.size() - 1)) {
-						primeArr.add(check);
-						count++;
-						break;
-					}
-				}
+					else if (j == prime - 1)
+						count ++ ;
+				if (count == i)
+					break;
+				prime++;
 			}
-			return check;
-	}
+			return prime;		
+		}
 }
 
 	/**
@@ -635,14 +634,24 @@ public class EvaluationService {
 	/**
 	 * 17. Calculate the moment when someone has lived for 10^9 seconds.
 	 * 
-	 * A gigasecond is 109 (1,000,000,000) seconds.
+	 * A gigasecond is 10^9 (1,000,000,000) seconds.
 	 * 
 	 * @param given
 	 * @return
 	 */
 	public Temporal getGigasecondDate(Temporal given) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		Temporal today = null;
+			switch(given.getClass().getName()) {
+			case"java.time.LocalDate":
+				today = ((LocalDate) given).atTime(0, 0, 0).plus(1000000000L, ChronoUnit.SECONDS);
+				break;
+			case"java.time.LocalDateTime":
+				today = ((LocalDateTime)given).plus(1000000000L, ChronoUnit.SECONDS);
+				break;
+				default:
+					throw new IllegalArgumentException("There is no time.");
+			}
+		return today;
 	}
 
 	/**
